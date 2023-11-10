@@ -1,4 +1,12 @@
 # **Tugas Besar Pemrograman Berbasis Object** _Double-Entry Accounting General Ledger_
+## Kelompok 4
+- Seagata
+- Andi Ahmad
+- Rivan
+- Mursyid
+- Rashad
+
+<br>
 
 # **Cara Kerja**
 ![img1](img/1.png)
@@ -33,107 +41,101 @@ Payment Credit merepresentasikan darimana economic benefit datang, sedangkan Pay
 ## Driver
 Ini adalah kelas yang berfungsi sebagai tampilan antarmuka User dan Software.
 
-<br> <br> <br> 
-# _**On Construction**_
+<br>
+
 # **Class Diagram**
-![Diagram](diagram.png)  
+
+![Diagram](img/diagram.png)  
 
 # **Class**
 ## **Yuuka**
 >Driver to control the entire thing
 
 **Method**
-+ inputInvoice()
-+ deleteInvoice()
++ inputJournalEntry()
++ deleteJournalEntry()
 + Initialize generalLedger()
 + createAcc()
 + createSubledger()
-+ createNewFiscalYear()
 + printTAccount()
 + printBalanceSheet()
-+ printInvoice()
++ printJournalEntry()
 
-## **Invoice** 
->this is huh
+## **journalEntry** 
+>Journal Entry menginisialisasi pembuatan payment dan menginputnya pada account
 
 **Variable**
 - JENumber: int
 - date : date
 - desc : String
-- dr : paymentDebit[ ]
-- cr : paymentCredit[ ]
-- amount : double
+- namaAccDr : string
+- namaAccCr : string
+- accDr : Account   
+- accCr : account
+- dr : paymentDebit
+- cr : paymentCredit
+- amountDr : double
+- amountCr : double
 
 
 <br>**Method**
-+ Invoice()
-+ input()
++ journalEntry(generalLedger genLed) //melakukan permintaan input pada user berupa JENumber, nama akun cr & dr, amountDr & Cr, dan deskripsi lalu melakukan new dr dan cr memakai konstruktor dari paymentDebit & Credit dan lakukan set JENumber setelah itu find account dan panggil function addDebit & Credit dari account
++ findAccount(string nama Acc, generalLedger genLed) //sega dah buat
 + setJENumber(int JENumber)
-+ getJENumber:(): int
-+ setDr(double amount)
-+ setCr(double amount)
-+ getDr(): double
-+ getCr(): double
++ getJENumber(): int
++ save() //menyimpan dr dan cr ke account (sega dah buat) 
 
 
 ## **Account**
->for bla
+>di isi oleh paymentCredit & Debit
 
 
 **Variable**
 - accName: String
 - totalDebit : double
 - totalCredit : double
-- invoices : Invoice[ ]
+- cr : paymentCredit[]
+- dr : paymentDebit[]
+- isDebit : boolean
 
 **Method**
-+ Account(String accName)
-+ reset()
-+ setAccName(String accName)
-+ getAccName() : String
++ Account(String accName, boolean isDebit)
++ update() //pada saat addDebit ataupun reduceDebit dipanggil update() juga dipanggil dan update() akan mengakses function updateSubledger pada class subledger
 + addDebit(Double amount)
 + addCredit(Double amount)
-+ reduceDebit(Double amount)
-+ reduceCredit(Double amount)
-+ addInvoice(Invoice invoice)
++ setAccName(String accName)
++ setIsDebit(boolean isDebit)
++ getAccName() : String
++ getIsDebit() : boolean
+  
 
-
-## **_Payment_**
->for huh
+## **paymentCredit**
+>Untuk transaksi tipe credit
 
 **Variable**
-- payer: Account
-- receiver : Account
+- tanggal : Date
 - amount : double
 
 **Method**
-+ Payment(Account payer, Account receiver)
-+ setPayer(Account payer)
-+ setReceiver( Account receiver)
-+ getPayer() : Account 
-+ getReceiver() : Account 
-  
-
-### **paymentCredit**
->for huh
-
-**Method**
-+ paymentCredit(double amount)
++ paymentCredit(double amount, tanggal Date, account Account)
 + setCredit(double amount)
 + getCredit(): double  
-<br>
 
-### **paymentDebit**
->for huh
+## **paymentDebit**
+>Untuk transaksi tipe Debit
+
+**Variable**
+- tanggal : Date
+- amount : double
 
 **Method**
-+ paymentDebit(double amount)
++ paymentDebit(double amount, tanggal Date, account Account)
 + setDebit(double amount)
 + getDebit(): double  
 <br>
 
 ## **_Ledger_**
->for huh
+>abstract untuk generalLedger & subLedger
 
 **Variable**
 - ledgerName: String
@@ -141,34 +143,32 @@ Ini adalah kelas yang berfungsi sebagai tampilan antarmuka User dan Software.
 - totalCredit : double
 
 **Method**
-+ Account(String ledgerName)
-+ reset()
-+ setAccName(String ledgerName)
-+ getAccName() : String
-+ addDebit(Double amount)
-+ addCredit(Double amount)
-+ reduceDebit(Double amount)
-+ reduceCredit(Double amount)
++ ledger(String ledgerName)
 + setLedgerName(String ledgerName)
 + getLedgerName() : String
 
-### **generalLedger**
->for huh
+## **generalLedger**
+>extends dari ledger dan di isi oleh banyak subLedger
 
 **Variable**
-- subledger : Ledger[ ]<br>
+- subLedgers: HashMap< String, subLedger >
+- String subLedgerName
 
 **Method**
-+ generalLedger(String ledgerName)
-
++ generalLedger(String ledgerName) //setLedgerName
++ createSubledger(ledger SubledgerName) // new subledger lalu dimasukkin ke dictionary
++ updateGeneralLedger() //sega dah buat
 <br>
 
-### **subLedger**
->for huh
+## **subLedger**
+>extends dari ledger dan di isi oleh banyak Account
 
 **Variable**
-- account : Account[ ]<br>
+- accounts: HashMap< String, Account >
+- String accName
+- boolean isDebit
   
 **Method**
-+ Subledger(String ledgerName)
-+ addInvoice(Invoice invoice)
++ Subledger(String ledgerName) //setLedgerName
++ createAccount(String accName, boolean isDebit) //new acc lalu dimasukkan ke dictionary
++ updateSubLedger() //sega dah buat
