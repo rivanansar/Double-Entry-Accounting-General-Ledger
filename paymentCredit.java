@@ -10,21 +10,18 @@ import java.util.Date;
  * @author ACER
  */
 public class paymentCredit {
-        private Date tanggal; // Date of the credit transaction
-    private double amount; // Amount of the credit
+    private Date tanggal;
+    private double amount;
 
-    // Constructor
     public paymentCredit(double amount, Date tanggal) {
         this.amount = amount;
         this.tanggal = tanggal;
     }
 
-    // Method to set the credit amount
     public void setCredit(double amount) {
         this.amount = amount;
     }
 
-    // Method to get the credit amount
     public double getCredit() {
         return amount;
     }
